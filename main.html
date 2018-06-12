@@ -8,44 +8,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script type="text/javascript" src="paper-full.js"></script>
+    <script type="text/javascript" src="howler.js"></script>
     <script type="text/paperscript" canvas="myCanvas">
     
-    var shift = 100;
-        // H = 10*shift, // rows
-        // W = 10*shift; // columns
-        H = window.innerHeight, // rows
-        W = window.innerWidth; // columns
+    var circles = [];
 
-    for (var i = 0; i < H; i+= shift) {
-        for (var j = 0; j < W; j+= shift) {
-            new Path.Circle(new Point(j+(0.5*shift), i+(0.5*shift)), 25).fillColor = 'white';
-        }
+    function onKeyDown(event) {
+        var maxPoint = new Point(view.size.width, view.size.height);
+        var randomPoint = Point.random();
+        var point = maxPoint * randomPoint;
+        var newCircle = new Path.Circle(point, 300);
+        newCircle.fillColor = 'orange';
+	    circles.push(newCircle);
     }
 
-    // for h and w represented by innersizes/shift
-
-    // for (var i = 0; i < H; i++) {
-    //     for (var j = 0; j < W; j++) {
-    //         circles = new Path.Circle(new Point(shift*(j+0.5), shift*(i+0.5)), 25);
-    //         circles.fillColor = 'white';
-    //     }
-    // }
-
-    // Old trash with clonning and matrixes. I'm stupid. :)
-
-    // circle = new Path.Circle(new Point(0, 0), 25);
-    // circle.fillColor = 'white';
-
-    // // circles[1] = circles[0].clone();
-    // // circles[1].position += new Point(shift, 0);
-
-    // for (var i = 0; i < H; i++) {
-    //     circles[i] = [];
-    //     for (var j = 0; j < W; j++) {
-    //         circles[i][j] = circle.clone();
-    //         circles[i][j].position += new Point(shift*j, shift*i);
-    //     }
-    // }
+    function onFrame(event) {
+	    for (var i = 0; i < circles.length; i++) {
+            circles[i].fillColor.hue += 1;
+            circles[i].scale(.95);
+        }
+    }
 
     </script>
 </head>
